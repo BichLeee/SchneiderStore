@@ -1,0 +1,51 @@
+﻿@model List<SchneiderStore.Models.Order >
+@{
+	ViewData["Title"] = "Home Page";
+}
+<h5 class="card py-2 shadow-sm" style="width: 200px; text-align: center; margin: 18px auto; border-radius: 10px;">
+	ORDER LIST
+</h5>
+<div class="card mt-3" style="background-color: #D9D9D9; height: 530px; border-radius: 10px;">
+	<div class="table-responsive px-3 py-2 m-4"
+		 style="background-color: white; border-radius: 10px; height: 520px;">
+		<table class="table" id="home_table">
+			<thead>
+				<tr>
+					<th scope="col">Sales Order</th>
+					<th scope="col">Sales Order Item</th>
+					<th scope="col">Work Order</th>
+					<th scope="col">Product ID</th>
+					<th scope="col">Product Description</th>
+					<th scope="col">Order Qty</th>
+					<th scope="col">Order Status</th>
+					<th scope="col">Timestamp</th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+				@*@if (Model != null | Model.Any())
+				{
+					@foreach (var order in Model)
+					{
+						<tr>
+							<td>@order.SalesOrder</td>
+							<td>@order.SalesOrderItem</td>
+							<td>@order.WorkOrder</td>
+							<td>@order.ProductID</td>
+							<td>@order.ProductDes</td>
+							<td>@order.OrderQty</td>
+							<td>@order.OrderStatus</td>
+							<td>@order.Timestamp</td>
+						</tr>
+					}
+
+				}
+				else
+				{
+					<tr>
+
+					</tr>
+				}*@
+			</tbody>
+		</table>
+	</div>
+</div>
