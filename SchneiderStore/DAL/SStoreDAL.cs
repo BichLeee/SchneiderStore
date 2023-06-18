@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Connections;
 using SchneiderStore.Models;
+using System.Data;
 using System.Data.SqlClient;
 using System.Numerics;
 
@@ -71,6 +72,7 @@ namespace SchneiderStore.DAL
 
 				using (var command = connection.CreateCommand())
 				{
+					command.CommandType = CommandType.StoredProcedure;
 					command.CommandText = "spCreateOrder";
 
 					command.Parameters.AddWithValue("@SalesOrder", order.SalesOrder);

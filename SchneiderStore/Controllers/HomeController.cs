@@ -28,6 +28,7 @@ namespace SchneiderStore.Controllers
 			//             TempData["errorMessage"] = ex.Message;
 			//         }
 			//return View(orders);
+
 			return View();
 		}
 
@@ -52,7 +53,6 @@ namespace SchneiderStore.Controllers
 			}
 			catch (Exception ex)
 			{
-				TempData["errorMessage"] = ex.Message;
 				return null;
 			}
 		}

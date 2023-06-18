@@ -13,12 +13,12 @@ namespace SchneiderStore.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Add(Order order)
+		public IActionResult Index(Order order)
 		{
 			order.Timestamp= DateTime.Now;
 
 			bool result = SStoreDAL.getInstance().addOrder(order);
-			if(result)
+			if (result)
 			{
 				TempData["resultMessage"] = "Action Successfull ~~";
 			}
@@ -26,7 +26,7 @@ namespace SchneiderStore.Controllers
 			{
 				TempData["resultMessage"] = "Action Fail !!!";
 			}
-			return View();
+			return RedirectToAction("Index","Home",new {add_result= result });
 		}
 	}
 }
