@@ -14,20 +14,6 @@ namespace SchneiderStore.Controllers
 
 		public IActionResult Index()
 		{
-			//         List<Order> orders = new List<Order>();
-			//try
-			//         {
-			//	orders = storeDAO.GetAllOrders();
-			//	if (orders == null)
-			//	{
-			//		return NotFound();
-			//	}
-			//}
-			//         catch (Exception ex) 
-			//         {
-			//             TempData["errorMessage"] = ex.Message;
-			//         }
-			//return View(orders);
 
 			return View();
 		}
@@ -35,7 +21,7 @@ namespace SchneiderStore.Controllers
 		// 
 		// GET: /Home/Welcome/ 
 
-		public IActionResult Data()
+		public async Task<IActionResult> Data()
 		{
 			List<Order> orders = new List<Order>();
 			try
@@ -54,6 +40,29 @@ namespace SchneiderStore.Controllers
 			catch (Exception ex)
 			{
 				return null;
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Find(string SalesOrder, string SalesOrderItem)
+		{
+			Order order = new Order();
+			try
+			{
+				order = SStoreDAL.getInstance().findOrder(SalesOrder, SalesOrderItem);
+				if (order != null)
+				{
+					string json = JsonSerializer.Serialize(order);
+					return Content(json, "application/json");
+				}
+				else
+				{
+					return NotFound();
+				}
+			}
+			catch (Exception ex)
+			{
+				return NotFound();
 			}
 		}
 	}

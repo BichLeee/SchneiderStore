@@ -1,8 +1,84 @@
-﻿@*
+﻿@model SchneiderStore.Models.Order
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
-<h5 class="card py-2 shadow-sm" style="width: 200px; text-align: center; margin: 25px auto; border-radius: 10px;">
+<h5 class="card py-2 shadow-sm" style="width: 200px; text-align: center; margin: 18px auto; border-radius: 10px;">
 	EDIT ORDER
 </h5>
+<div class="card shadow" style="border: 1px solid #D9D9D9; width: 70%; margin: 30px auto;
+    padding-inline: 50px; padding-block: 30px;">
+	<form asp-action="DoEdit">
+		<div class="d-flex justify-content-center align-items-end">
+			<div>
+				<label class="form-label" style="width: 200px;"><strong>Sales Order</strong></label>
+				<input id="SalesOrder_Find" name="SalesOrder" type="text" class="form-control" style="width: 200px;">
+			</div>
+			<div class="mx-5">
+				<label class="form-label" style="width: 200px;"><strong>Sales Order Item</strong></label>
+				<input id="SalesOrderItem_Find" name="SalesOrderItem" type="text" class="form-control" style="width: 200px;">
+			</div>
+
+			<button type="button" class="btn btn-outline-secondary" style="width:70px"
+					onclick="findOrder()">
+				🔍
+			</button>
+
+		</div>
+		<div class="mb-3 mt-5 d-none text-center" id="not_found_div"><strong>Data not found !</strong></div>
+		<div class="d-none" id="delete_info_div">
+			<div class="card shadow-sm" style="border: 1px solid #D9D9D9; width: 80%; margin: 30px auto;
+    padding:10px;">
+				<div class="d-flex justify-content-between mt-3 pb-1">
+					<div>
+						<div class="d-flex align-items-center">
+							<label class="form-label" style="width: 120px;">Sales Order :</label>
+							<input disabled type="text" class="form-control text-center" style="width: 150px;" asp-for="SalesOrder">
+						</div>
+						<div class="d-flex align-items-center mt-2">
+							<label class="form-label" style="width: 120px;">Work Order :</label>
+							<input type="text" class="form-control text-center" style="width: 150px;" asp-for="WorkOrder">
+						</div>
+						<div class="d-flex align-items-center mt-2">
+							<label class="form-label" style="width: 120px;">Order Status :</label>
+							<select class="form-select text-center" aria-label="Order Status" style="width: 150px" asp-for="OrderStatus">
+								<option value="Open">Open</option>
+								<option value="Close">Close</option>
+							</select>
+						</div>
+					</div>
+					<div>
+						<div class="d-flex align-items-center">
+							<label class="form-label" style="width: 120px">Sales Order Item :</label>
+							<input disabled type="text" class="form-control text-center" style="width: 140px;" asp-for="SalesOrderItem">
+						</div>
+						<div class="d-flex align-items-center mt-2">
+							<label class="form-label" style="width: 120px;">Product ID :</label>
+							<input type="text" class="form-control text-center" style="width: 140px;" asp-for="ProductID">
+						</div>
+						<div class="d-flex align-items-center mt-2">
+							<label class="form-label" style="width: 120px;">Order Quantity :</label>
+							<input type="number" class="form-control text-center" style="width: 140px;" asp-for="OrderQty">
+						</div>
+
+					</div>
+
+				</div>
+				<div class="d-flex align-items-center mt-1">
+					<label class="form-label" style="width: 120px;">Product Description :</label>
+					<input type="text" class="form-control" asp-for="ProductDes" style="width: 450px;">
+				</div>
+				<div class="d-flex align-items-center mt-1">
+					<label class="form-label" style="width: 120px;">Timestamp :</label>
+					<input type="datetime-local" class="form-control" asp-for="Timestamp" style="width: 250px;">
+				</div>
+
+			</div>
+			<div class="d-flex justify-content-center">
+				<button type="submit" class="btn btn-warning" style="width:200px;">Save</button>
+			</div>
+		</div>
+	</form>
+
+</div>

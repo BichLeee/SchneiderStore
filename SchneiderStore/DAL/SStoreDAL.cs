@@ -53,7 +53,7 @@ namespace SchneiderStore.DAL
 						order.ProductDes = reader["ProductDes"].ToString();
 						order.OrderQty = decimal.Parse(reader["OrderQty"].ToString());
 						order.OrderStatus = reader["OrderStatus"].ToString();
-						order.Timestamp = Convert.ToDateTime(reader["Timestamp"].ToString());
+						order.Timestamp = Convert.ToDateTime(reader["Timestamp"]);
 						orders.Add(order);
 					}
 				}
@@ -82,8 +82,8 @@ namespace SchneiderStore.DAL
 					command.Parameters.AddWithValue("@ProductDes", order.ProductDes);
 					command.Parameters.AddWithValue("@OrderQty", order.OrderQty);
 					command.Parameters.AddWithValue("@OrderStatus", order.OrderStatus);
-					command.Parameters.AddWithValue("@Timestamp", order.Timestamp);
-					
+					command.Parameters.AddWithValue("@Timestamp", Order.getTimeStr(order.Timestamp) );
+
 					result = command.ExecuteNonQuery();
 				}
 			}
@@ -91,5 +91,83 @@ namespace SchneiderStore.DAL
 			return true;
 		}
 
+		public bool deleteOrder(string SalesOrder, string SalesOrderItem)
+		{
+			int result = 0;
+
+			string ConnectionString = getConnectionString();
+			using (var connection = new SqlConnection(ConnectionString))
+			{
+				connection.Open();
+
+				using (var command = connection.CreateCommand())
+				{
+					command.CommandText = $"Delete From [Order] Where SalesOrder='{SalesOrder}' and SalesOrderItem='{SalesOrderItem}'";
+
+					result = command.ExecuteNonQuery();
+				}
+			}
+			if (result == 0) { return false; }
+			return true;
+		}
+
+		public Order findOrder(string SalesOrder, string SalesOrderItem)
+		{
+			string ConnectionString = getConnectionString();
+
+			Order order = new Order();
+			using (var connection = new SqlConnection(ConnectionString))
+			{
+				connection.Open();
+
+				using (var command = connection.CreateCommand())
+				{
+					command.CommandText = $"Select * From [Order] Where SalesOrder='{SalesOrder}' And SalesOrderItem='{SalesOrderItem}'";
+
+					var reader = command.ExecuteReader();
+					reader.Read();
+
+					order.SalesOrder = reader["SalesOrder"].ToString();
+					order.SalesOrderItem = reader["SalesOrderItem"].ToString();
+					order.WorkOrder = reader["WorkOrder"].ToString();
+					order.ProductID = reader["ProductID"].ToString();
+					order.ProductDes = reader["ProductDes"].ToString();
+					order.OrderQty = decimal.Parse(reader["OrderQty"].ToString());
+					order.OrderStatus = reader["OrderStatus"].ToString();
+					order.Timestamp = Convert.ToDateTime(reader["Timestamp"]);
+
+				}
+			}
+			return order;
+		}
+
+		public bool editOrder(Order order)
+		{
+			int result = 0;
+
+			string ConnectionString = getConnectionString();
+			using (var connection = new SqlConnection(ConnectionString))
+			{
+				connection.Open();
+				
+
+				using (var command = connection.CreateCommand())
+				{
+					command.CommandText =
+						$"Update [Order] " +
+						$"Set WorkOrder = '{order.WorkOrder}'," +
+						$"ProductID = '{order.ProductID}'," +
+						$"ProductDes = '{order.ProductDes}'," +
+						$"OrderQty = {order.OrderQty}," +
+						$"OrderStatus = '{order.OrderStatus}'," +
+						$"Timestamp = '{Order.getTimeStr(order.Timestamp)}' " +
+						$"Where SalesOrder='{order.SalesOrder}' And SalesOrderItem='{order.SalesOrderItem}';";
+
+					result = command.ExecuteNonQuery();
+				}
+			}
+			if (result == 0) { return false; }
+			return true;
+		}
 	}
 }

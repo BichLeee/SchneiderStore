@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SchneiderStore.DAL;
 using SchneiderStore.Models;
+using System.Text.Json;
 
 namespace SchneiderStore.Controllers
 {
@@ -13,20 +14,27 @@ namespace SchneiderStore.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Index(Order order)
+		public async Task<IActionResult> DoCreate(Order order)
 		{
 			order.Timestamp= DateTime.Now;
 
-			bool result = SStoreDAL.getInstance().addOrder(order);
+			bool result = false;
+			try
+			{
+				result = SStoreDAL.getInstance().addOrder(order);
+			}
+			catch(Exception ex){}
 			if (result)
 			{
-				TempData["resultMessage"] = "Action Successfull ~~";
+				TempData["resultMessage"] = true;
 			}
 			else
 			{
-				TempData["resultMessage"] = "Action Fail !!!";
+				TempData["resultMessage"] = false;
 			}
 			return RedirectToAction("Index","Home",new {add_result= result });
 		}
+
+		
 	}
 }

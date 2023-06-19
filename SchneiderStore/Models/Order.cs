@@ -11,5 +11,10 @@
         public String OrderStatus { get; set; }
         public DateTime Timestamp { get; set; }
 
+        public static string getTimeStr(DateTime datetime)
+        {
+            return datetime.ToString("MM/dd/yy HH:mm");
+		}
+
     }
 }
